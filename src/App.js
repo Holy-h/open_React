@@ -12,15 +12,20 @@ class App extends Component {
       subject: {
         title: "WEB",
         sub: "World Wide Web!"
-      }
+      },
+      contents: [
+        { id: 1, title: "HTML", desc: "HTML is HyperText..." },
+        { id: 2, title: "CSS", desc: "CSS is for Design" },
+        { id: 3, title: "JS", desc: "JS is for interactive" }
+      ]
     };
   }
   render() {
-    const { subject } = this.state;
+    const { subject, contents } = this.state;
     return (
       <>
         <Subject title={subject.title} sub={subject.sub} />
-        <TOC />
+        <TOC data={contents} />
         <Content title="HTML" desc="HTML is Hyper Text Markup Language." />
       </>
     );
