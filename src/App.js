@@ -36,7 +36,21 @@ class App extends Component {
     }
     return (
       <>
-        <Subject title={subject.title} sub={subject.sub} />
+        <header>
+          <h1>
+            <a
+              href="/"
+              onClick={e => {
+                console.log(e);
+                e.preventDefault();
+              }}
+            >
+              {subject.title}
+            </a>
+          </h1>
+          <p>{subject.sub}</p>
+        </header>
+        {/* <Subject title={subject.title} sub={subject.sub} /> */}
         <TOC data={contents} />
         <Content title={_title} desc={_desc} />
       </>
