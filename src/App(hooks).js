@@ -5,35 +5,49 @@ import TOC from "./components/TOC";
 import Content from "./components/Content";
 
 const App = () => {
-  const [mode, setMode] = useState("welcome");
-  const [subject, setSubject] = useState({
+  const [content, setContent] = useState({
+    title: "sample title",
+    desc: "sample desc"
+  });
+
+  let subject = {
     title: "WEB",
     sub: "World Wide Web!"
-  });
-  const [welcome, setWelcome] = useState({
-    title: "welcome",
+  };
+
+  let welcome = {
+    title: "환영합니당",
     desc: "Hello, React!!"
-  });
-  const [contents, setContents] = useState([
+  };
+
+  let contents_db = [
     { id: 1, title: "HTML", desc: "HTML is for Information" },
     { id: 2, title: "CSS", desc: "CSS is for Design" },
     { id: 3, title: "JS", desc: "JS is for interactive" }
-  ]);
+  ];
 
-  let _title,
-    _desc = null;
-  if (mode === "welcome") {
-    _title = welcome.title;
-    _desc = welcome.desc;
-  } else if (mode === "read") {
-    _title = contents[0].title;
-    _desc = contents[0].desc;
-  }
+  const onClickTOC = async id => {
+    const int_id = await Number(id);
+    for (let i = 0; i < contents_db.length; i++) {
+      let data = contents_db[i];
+      if (data.id === int_id) {
+        setContent(data);
+        break;
+      }
+    }
+  };
+
   return (
     <>
-      <Subject title={subject.title} sub={subject.sub} />
-      <TOC data={contents} />
-      <Content title={_title} desc={_desc} />
+      <Subject
+        title={subject.title}
+        sub={subject.sub}
+        onClickSubject={function() {
+          setContent(welcome);
+        }}
+      />
+      <TOC data={contents_db} onClickTOC={onClickTOC} />
+      <Content title={content.title} desc={content.desc} />
     </>
   );
 };
