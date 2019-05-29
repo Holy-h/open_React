@@ -34,26 +34,19 @@ class App extends Component {
       _title = contents[0].title;
       _desc = contents[0].desc;
     }
+    console.log("render", this);
     return (
       <>
-        <header>
-          <h1>
-            <a
-              href="/"
-              onClick={function(e) {
-                console.log(e);
-                e.preventDefault();
-                this.setState({
-                  mode: "welcome"
-                });
-              }.bind(this)}
-            >
-              {subject.title}
-            </a>
-          </h1>
-          <p>{subject.sub}</p>
-        </header>
-        {/* <Subject title={subject.title} sub={subject.sub} /> */}
+        <Subject
+          title={subject.title}
+          sub={subject.sub}
+          onClickSubject={function() {
+            alert("click Subject");
+            this.setState({
+              mode: "welcome"
+            });
+          }.bind(this)}
+        />
         <TOC data={contents} />
         <Content title={_title} desc={_desc} />
       </>
