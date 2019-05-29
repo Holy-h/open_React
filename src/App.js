@@ -40,10 +40,13 @@ class App extends Component {
           <h1>
             <a
               href="/"
-              onClick={e => {
+              onClick={function(e) {
                 console.log(e);
                 e.preventDefault();
-              }}
+                this.setState({
+                  mode: "welcome"
+                });
+              }.bind(this)}
             >
               {subject.title}
             </a>
