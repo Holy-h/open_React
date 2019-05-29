@@ -47,7 +47,15 @@ class App extends Component {
             });
           }.bind(this)}
         />
-        <TOC data={contents} />
+        <TOC
+          onClickTOC={function() {
+            alert("click TOC");
+            this.setState({
+              mode: "read"
+            });
+          }.bind(this)}
+          data={contents}
+        />
         <Content title={_title} desc={_desc} />
       </>
     );
