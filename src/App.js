@@ -10,6 +10,7 @@ class App extends Component {
     // Component의 값을 초기화
     this.state = {
       mode: "read",
+      selected_content_id: 2,
       subject: {
         title: "WEB",
         sub: "World Wide Web!"
@@ -26,32 +27,42 @@ class App extends Component {
     console.log("App render");
     let _title,
       _desc = null;
-    const { mode, subject, welcome, contents } = this.state;
+    const {
+      mode,
+      subject,
+      welcome,
+      contents,
+      selected_content_id
+    } = this.state;
     if (mode === "welcome") {
       _title = welcome.title;
       _desc = welcome.desc;
     } else if (mode === "read") {
-      _title = contents[0].title;
-      _desc = contents[0].desc;
+      for (let i = 0; i < contents.length; i++) {
+        let data = contents[i];
+        if (data.id === selected_content_id) {
+          _title = data.title;
+          _desc = data.desc;
+          break;
+        }
+      }
     }
-    console.log("render", this);
     return (
       <>
         <Subject
           title={subject.title}
           sub={subject.sub}
           onClickSubject={function() {
-            alert("click Subject");
             this.setState({
               mode: "welcome"
             });
           }.bind(this)}
         />
         <TOC
-          onClickTOC={function() {
-            alert("click TOC");
+          onClickTOC={function(id) {
             this.setState({
-              mode: "read"
+              mode: "read",
+              selected_content_id: Number(id)
             });
           }.bind(this)}
           data={contents}

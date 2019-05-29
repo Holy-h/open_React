@@ -10,9 +10,10 @@ class TOC extends Component {
         <li key={data[i].id}>
           <a
             href={`/content/${data[i].id}`}
+            data-id={data[i].id}
             onClick={function(e) {
               e.preventDefault();
-              onClickTOC();
+              onClickTOC(e.target.dataset.id);
             }}
           >
             {data[i].title}
