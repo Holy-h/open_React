@@ -3,6 +3,7 @@ import "./App.css";
 import Subject from "./components/Subject";
 import TOC from "./components/TOC";
 import Content from "./components/Content";
+import Control from "./components/Control";
 
 class App extends Component {
   constructor(props) {
@@ -34,6 +35,7 @@ class App extends Component {
       contents,
       selected_content_id
     } = this.state;
+
     if (mode === "welcome") {
       _title = welcome.title;
       _desc = welcome.desc;
@@ -47,26 +49,36 @@ class App extends Component {
         }
       }
     }
+
+    const onClickSubject = () => {
+      this.setState({
+        mode: "welcome"
+      });
+    };
+
+    const onClickTOC = id => {
+      this.setState({
+        mode: "read",
+        selected_content_id: Number(id)
+      });
+    };
+
+    const onClickControl = _mode => {
+      this.setState({
+        mode: _mode
+      });
+    };
+
     return (
       <>
+        <div>현재 모드: {mode}</div>
         <Subject
           title={subject.title}
           sub={subject.sub}
-          onClickSubject={function() {
-            this.setState({
-              mode: "welcome"
-            });
-          }.bind(this)}
+          onClickSubject={onClickSubject}
         />
-        <TOC
-          onClickTOC={function(id) {
-            this.setState({
-              mode: "read",
-              selected_content_id: Number(id)
-            });
-          }.bind(this)}
-          data={contents}
-        />
+        <TOC onClickTOC={onClickTOC} data={contents} />
+        <Control onChangeMode={onClickControl} />
         <Content title={_title} desc={_desc} />
       </>
     );
