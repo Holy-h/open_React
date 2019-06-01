@@ -3,11 +3,30 @@ import React, { Component } from "react";
 class CreateContent extends Component {
   render() {
     console.log("Contents render");
-    const { title, desc } = this.props;
+    const { onSubmitCreate } = this.props;
     return (
       <article>
         <h2>Create</h2>
-        <form />
+        <form
+          action="/create_process"
+          method="post"
+          onSubmit={function(e) {
+            const { title, desc } = e.target;
+            e.preventDefault();
+            alert("Create Submit");
+            onSubmitCreate(title.value, desc.value);
+          }}
+        >
+          <p>
+            <input type="text" name="title" placeholder="Title" />
+          </p>
+          <p>
+            <textarea name="desc" placeholder="Description" />
+          </p>
+          <p>
+            <input type="submit" />
+          </p>
+        </form>
       </article>
     );
   }

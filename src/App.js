@@ -11,7 +11,7 @@ class App extends Component {
     super(props);
     // Component의 값을 초기화
     this.state = {
-      mode: "welcome",
+      mode: "create",
       selected_content_id: 1,
       subject: {
         title: "WEB",
@@ -55,7 +55,13 @@ class App extends Component {
         }
       }
     } else if (mode === "create") {
-      _article = <CreateContent />;
+      _article = (
+        <CreateContent
+          onSubmitCreate={function(_title, _desc) {
+            console.log(_title, _desc);
+          }}
+        />
+      );
     }
 
     const onClickSubject = () => {
