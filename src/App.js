@@ -5,6 +5,7 @@ import TOC from "./components/TOC";
 import Control from "./components/Control";
 import ReadContent from "./components/ReadContent";
 import CreateContent from "./components/CreateContent";
+import UpdateContent from "./components/UpdateContent";
 
 class App extends Component {
   constructor(props) {
@@ -25,35 +26,32 @@ class App extends Component {
       ]
     };
   }
-  render() {
-    console.log("App render");
 
+  getReadContent() {
+    const { contents, selected_content_id } = this.state;
+
+    for (let i = 0; i < contents.length; i++) {
+      let data = contents[i];
+      if (data.id === selected_content_id) {
+        return data;
+      }
+    }
+  }
+
+  getContentComponent() {
     let _title,
       _desc,
       _article = null;
 
-    const {
-      mode,
-      subject,
-      welcome,
-      contents,
-      selected_content_id
-    } = this.state;
+    const { mode, welcome, contents } = this.state;
 
     if (mode === "welcome") {
       _title = welcome.title;
       _desc = welcome.desc;
       _article = <ReadContent title={_title} desc={_desc} />;
     } else if (mode === "read") {
-      for (let i = 0; i < contents.length; i++) {
-        let data = contents[i];
-        if (data.id === selected_content_id) {
-          _title = data.title;
-          _desc = data.desc;
-          _article = <ReadContent title={_title} desc={_desc} />;
-          break;
-        }
-      }
+      const _content = this.getReadContent();
+      _article = <ReadContent title={_content.title} desc={_content.desc} />;
     } else if (mode === "create") {
       _article = (
         <CreateContent
@@ -70,7 +68,6 @@ class App extends Component {
               title: _title,
               desc: _desc
             });
-            console.log(_contents);
 
             this.setState({
               contents: _contents
@@ -78,9 +75,19 @@ class App extends Component {
           }.bind(this)}
         />
       );
-    } else {
-      alert("mode error");
+    } else if (mode === "update") {
+      const _content = this.getReadContent();
+      _article = (
+        <UpdateContent data={_content} onSubmitUpdate={function() {}} />
+      );
     }
+    return _article;
+  }
+
+  render() {
+    console.log("App render");
+
+    const { mode, subject, contents } = this.state;
 
     const onClickSubject = () => {
       this.setState({
@@ -111,7 +118,7 @@ class App extends Component {
         />
         <TOC onClickTOC={onClickTOC} data={contents} />
         <Control onChangeMode={onClickControl} />
-        {_article}
+        {this.getContentComponent()}
       </>
     );
   }

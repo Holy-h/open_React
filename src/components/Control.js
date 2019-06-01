@@ -11,11 +11,10 @@ class Control extends Component {
           <li>
             <a
               href="/create"
-              // className="create"
+              data-name="create"
               onClick={function(e) {
                 e.preventDefault();
-                console.log(e.target.className);
-                onChangeMode("create");
+                onChangeMode(e.target.dataset.name);
               }}
             >
               create
@@ -24,9 +23,10 @@ class Control extends Component {
           <li>
             <a
               href="/update"
+              data-name="update"
               onClick={function(e) {
                 e.preventDefault();
-                onChangeMode("update");
+                onChangeMode(e.target.dataset.name);
               }}
             >
               update
@@ -35,10 +35,11 @@ class Control extends Component {
           <li>
             <input
               type="button"
+              data-name="delete"
               value="delete"
               onClick={function(e) {
                 e.preventDefault();
-                onChangeMode("delete");
+                onChangeMode(e.target.dataset.name);
               }}
             />
           </li>
