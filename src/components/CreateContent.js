@@ -13,7 +13,6 @@ class CreateContent extends Component {
           onSubmit={function(e) {
             const { title, desc } = e.target;
             e.preventDefault();
-            alert("Create Submit");
             onSubmitCreate(title.value, desc.value);
           }}
         >

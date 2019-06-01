@@ -58,9 +58,9 @@ class App extends Component {
       _article = (
         <CreateContent
           onSubmitCreate={function(_title, _desc) {
-            const id = contents.length + 1;
+            const _id = contents.length + 1;
             const _contents = contents.concat({
-              id: id,
+              id: _id,
               title: _title,
               desc: _desc
             });
