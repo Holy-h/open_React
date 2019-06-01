@@ -59,6 +59,12 @@ class App extends Component {
         <CreateContent
           onSubmitCreate={function(_title, _desc) {
             const _id = contents.length + 1;
+
+            // Array.from();
+            // let _contents = Array.from(contents);
+            // _contents.push({ id: _id, title: _title, desc: _desc });
+
+            // concat
             const _contents = contents.concat({
               id: _id,
               title: _title,
@@ -72,6 +78,8 @@ class App extends Component {
           }.bind(this)}
         />
       );
+    } else {
+      alert("mode error");
     }
 
     const onClickSubject = () => {
