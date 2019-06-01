@@ -2,16 +2,17 @@ import React, { Component } from "react";
 import "./App.css";
 import Subject from "./components/Subject";
 import TOC from "./components/TOC";
-import Content from "./components/Content";
 import Control from "./components/Control";
+import ReadContent from "./components/ReadContent";
+import CreateContent from "./components/CreateContent";
 
 class App extends Component {
   constructor(props) {
     super(props);
     // Component의 값을 초기화
     this.state = {
-      mode: "read",
-      selected_content_id: 2,
+      mode: "welcome",
+      selected_content_id: 1,
       subject: {
         title: "WEB",
         sub: "World Wide Web!"
@@ -26,8 +27,11 @@ class App extends Component {
   }
   render() {
     console.log("App render");
+
     let _title,
-      _desc = null;
+      _desc,
+      _article = null;
+
     const {
       mode,
       subject,
@@ -39,15 +43,19 @@ class App extends Component {
     if (mode === "welcome") {
       _title = welcome.title;
       _desc = welcome.desc;
+      _article = <ReadContent title={_title} desc={_desc} />;
     } else if (mode === "read") {
       for (let i = 0; i < contents.length; i++) {
         let data = contents[i];
         if (data.id === selected_content_id) {
           _title = data.title;
           _desc = data.desc;
+          _article = <ReadContent title={_title} desc={_desc} />;
           break;
         }
       }
+    } else if (mode === "create") {
+      _article = <CreateContent />;
     }
 
     const onClickSubject = () => {
@@ -79,7 +87,7 @@ class App extends Component {
         />
         <TOC onClickTOC={onClickTOC} data={contents} />
         <Control onChangeMode={onClickControl} />
-        <Content title={_title} desc={_desc} />
+        {_article}
       </>
     );
   }
