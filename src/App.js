@@ -12,13 +12,10 @@ class App extends Component {
     super(props);
     // Component의 값을 초기화
     this.state = {
+      // mode: welcome, create, update, welcomeupdate, delete
       mode: "welcome",
       selected_content_id: 1,
-      subject: {
-        title: "WEB",
-        sub: "World Wide Web!"
-      },
-      welcome: { title: "welcome", desc: "Hello, React!!" },
+      welcome: { id: 0, title: "welcome", desc: "Hello, React!!" },
       contents: [
         { id: 1, title: "HTML", desc: "HTML is for Information" },
         { id: 2, title: "CSS", desc: "CSS is for Design" },
@@ -26,6 +23,11 @@ class App extends Component {
       ]
     };
   }
+
+  subject = {
+    title: "WEB1",
+    sub: "World Wide Web!"
+  };
 
   getReadContent() {
     const { contents, selected_content_id } = this.state;
@@ -49,6 +51,21 @@ class App extends Component {
       _title = welcome.title;
       _desc = welcome.desc;
       _article = <ReadContent title={_title} desc={_desc} />;
+    } else if (mode === "welcomeupdate") {
+      console.log(welcome);
+      _article = (
+        <UpdateContent
+          data={welcome}
+          onSubmitUpdate={function(_id, _title, _desc) {
+            console.log(_id, _title, _desc);
+
+            this.setState({
+              welcome: { id: _id, title: _title, desc: _desc },
+              mode: "welcome"
+            });
+          }.bind(this)}
+        />
+      );
     } else if (mode === "read") {
       const _content = this.getReadContent();
       _article = <ReadContent title={_content.title} desc={_content.desc} />;
@@ -79,8 +96,6 @@ class App extends Component {
         <UpdateContent
           data={_content}
           onSubmitUpdate={function(_id, _title, _desc) {
-            console.log(_id, _title, _desc);
-            console.log(typeof _id);
             const _contents = Array.from(contents);
             for (let i = 0; i < _contents.length; i++) {
               if (_contents[i].id === _id) {
@@ -102,13 +117,7 @@ class App extends Component {
   render() {
     console.log("App render");
 
-    const { mode, subject, contents, selected_content_id } = this.state;
-
-    const onClickSubject = () => {
-      this.setState({
-        mode: "welcome"
-      });
-    };
+    const { mode, contents, selected_content_id } = this.state;
 
     const onClickTOC = id => {
       this.setState({
@@ -133,25 +142,23 @@ class App extends Component {
           });
           alert("삭제되었습니다");
         }
-      } else if (_mode === "delete" && mode === "welcome") {
-        alert("환영 인사는 삭제할 수 없습니다");
-        return this.setState({ mode: "read" });
+      } else {
+        this.setState({
+          mode: _mode
+        });
       }
-      this.setState({
-        mode: _mode
-      });
     };
 
     return (
       <>
         <div>현재 모드: {mode}</div>
         <Subject
-          title={subject.title}
-          sub={subject.sub}
-          onClickSubject={onClickSubject}
+          title={this.subject.title}
+          sub={this.subject.sub}
+          onChangeMode={onClickControl}
         />
         <TOC onClickTOC={onClickTOC} data={contents} />
-        <Control onChangeMode={onClickControl} />
+        <Control onChangeMode={onClickControl} mode={mode} />
         {this.getContentComponent()}
       </>
     );

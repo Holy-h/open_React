@@ -3,7 +3,7 @@ import React, { Component } from "react";
 class Subject extends Component {
   render() {
     console.log("Subject render");
-    const { title, sub, onClickSubject } = this.props;
+    const { title, sub, onChangeMode } = this.props;
     return (
       <header>
         <h1>
@@ -11,7 +11,7 @@ class Subject extends Component {
             href="/"
             onClick={function(e) {
               e.preventDefault();
-              onClickSubject();
+              onChangeMode("welcome");
             }}
           >
             {title}

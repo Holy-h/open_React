@@ -3,7 +3,9 @@ import React, { Component } from "react";
 class UpdateContent extends Component {
   constructor(props) {
     super(props);
-    const { id, title, desc } = this.props.data;
+    const {
+      data: { id, title, desc }
+    } = this.props;
     // props로 받은 값을 변경하기 위해 state에 대입
     this.state = {
       id: id,

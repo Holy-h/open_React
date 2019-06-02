@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 class Control extends Component {
   render() {
-    const { onChangeMode } = this.props;
+    const { onChangeMode, mode } = this.props;
 
     return (
       <>
@@ -20,18 +20,34 @@ class Control extends Component {
               create
             </a>
           </li>
-          <li>
-            <a
-              href="/update"
-              data-name="update"
-              onClick={function(e) {
-                e.preventDefault();
-                onChangeMode(e.target.dataset.name);
-              }}
-            >
-              update
-            </a>
-          </li>
+          {mode === "welcome" ? (
+            <li>
+              <a
+                href="/welcome_update"
+                data-name="welcomeupdate"
+                onClick={function(e) {
+                  e.preventDefault();
+                  onChangeMode(e.target.dataset.name);
+                }}
+              >
+                welcome update
+              </a>
+            </li>
+          ) : (
+            <li>
+              <a
+                href="/contents_update"
+                data-name="update"
+                onClick={function(e) {
+                  e.preventDefault();
+                  onChangeMode(e.target.dataset.name);
+                }}
+              >
+                contents update
+              </a>
+            </li>
+          )}
+
           <li>
             <input
               type="button"
