@@ -12,7 +12,7 @@ class App extends Component {
     super(props);
     // Component의 값을 초기화
     this.state = {
-      mode: "create",
+      mode: "welcome",
       selected_content_id: 1,
       subject: {
         title: "WEB",
@@ -102,7 +102,7 @@ class App extends Component {
   render() {
     console.log("App render");
 
-    const { mode, subject, contents } = this.state;
+    const { mode, subject, contents, selected_content_id } = this.state;
 
     const onClickSubject = () => {
       this.setState({
@@ -118,6 +118,25 @@ class App extends Component {
     };
 
     const onClickControl = _mode => {
+      if (_mode === "delete" && mode === "read") {
+        if (window.confirm("삭제하시겠습니까?")) {
+          const _contents = Array.from(contents);
+          for (let i = 0; i < _contents.length; i++) {
+            if (_contents[i].id === selected_content_id) {
+              _contents.splice(i, 1);
+              break;
+            }
+          }
+          this.setState({
+            mode: "welcome",
+            contents: _contents
+          });
+          alert("삭제되었습니다");
+        }
+      } else if (_mode === "delete" && mode === "welcome") {
+        alert("환영 인사는 삭제할 수 없습니다");
+        return this.setState({ mode: "read" });
+      }
       this.setState({
         mode: _mode
       });
