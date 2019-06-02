@@ -3,9 +3,12 @@ import React, { Component } from "react";
 class UpdateContent extends Component {
   constructor(props) {
     super(props);
+    const { id, title, desc } = this.props.data;
+    // props로 받은 값을 변경하기 위해 state에 대입
     this.state = {
-      title: this.props.data.title,
-      desc: this.props.data.desc
+      id: id,
+      title: title,
+      desc: desc
     };
   }
 
@@ -16,7 +19,7 @@ class UpdateContent extends Component {
   }
 
   render() {
-    const { title, desc } = this.state;
+    const { id, title, desc } = this.state;
     const { onSubmitUpdate } = this.props;
     return (
       <article>
@@ -25,10 +28,11 @@ class UpdateContent extends Component {
           action="/update_process"
           method="post"
           onSubmit={function(e) {
-            const { title, desc } = e.target;
             e.preventDefault();
+            onSubmitUpdate(id, title, desc);
           }}
         >
+          <input type="hidden" name="id" value={id} />
           <p>
             <input
               type="text"

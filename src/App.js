@@ -58,10 +58,6 @@ class App extends Component {
           onSubmitCreate={function(_title, _desc) {
             const _id = contents.length + 1;
 
-            // Array.from();
-            // let _contents = Array.from(contents);
-            // _contents.push({ id: _id, title: _title, desc: _desc });
-
             // concat
             const _contents = contents.concat({
               id: _id,
@@ -70,7 +66,9 @@ class App extends Component {
             });
 
             this.setState({
-              contents: _contents
+              contents: _contents,
+              mode: "read",
+              selected_content_id: _id
             });
           }.bind(this)}
         />
@@ -78,7 +76,24 @@ class App extends Component {
     } else if (mode === "update") {
       const _content = this.getReadContent();
       _article = (
-        <UpdateContent data={_content} onSubmitUpdate={function() {}} />
+        <UpdateContent
+          data={_content}
+          onSubmitUpdate={function(_id, _title, _desc) {
+            console.log(_id, _title, _desc);
+            console.log(typeof _id);
+            const _contents = Array.from(contents);
+            for (let i = 0; i < _contents.length; i++) {
+              if (_contents[i].id === _id) {
+                _contents[i] = { id: _id, title: _title, desc: _desc };
+                break;
+              }
+            }
+            this.setState({
+              contents: _contents,
+              mode: "read"
+            });
+          }.bind(this)}
+        />
       );
     }
     return _article;
