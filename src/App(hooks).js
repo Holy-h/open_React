@@ -7,6 +7,25 @@ import ReadContent from "./components/ReadContent";
 import CreateContent from "./components/CreateContent";
 import UpdateContent from "./components/UpdateContent";
 
+const getReadContent = (contents, selected_content_id) => {
+  for (let i = 0; i < contents.length; i++) {
+    if (contents[i].id === selected_content_id) {
+      return contents[i];
+    }
+  }
+};
+
+const updateContents = (contents, _id, _title, _desc) => {
+  const _contents = Array.from(contents);
+  for (let i = 0; i < _contents.length; i++) {
+    if (_contents[i].id === _id) {
+      _contents[i] = { id: _id, title: _title, desc: _desc };
+      break;
+    }
+  }
+  return _contents;
+};
+
 const App = () => {
   const [mode, setMode] = useState("welcome");
   const [selected_content_id, setSelected_content_id] = useState(1);
@@ -24,14 +43,6 @@ const App = () => {
   const subject = {
     title: "WEB(Hooks)",
     sub: "World Wide Web!"
-  };
-
-  const getReadContent = () => {
-    for (let i = 0; i < contents.length; i++) {
-      if (contents[i].id === selected_content_id) {
-        return contents[i];
-      }
-    }
   };
 
   const getContentComponent = () => {
@@ -53,7 +64,7 @@ const App = () => {
         />
       );
     } else if (mode === "read") {
-      const _content = getReadContent();
+      const _content = getReadContent(contents, selected_content_id);
       _article = <ReadContent title={_content.title} desc={_content.desc} />;
     } else if (mode === "create") {
       _article = (
@@ -72,18 +83,12 @@ const App = () => {
         />
       );
     } else if (mode === "update") {
-      const _content = getReadContent();
+      const _content = getReadContent(contents, selected_content_id);
       _article = (
         <UpdateContent
           data={_content}
           onSubmitUpdate={(_id, _title, _desc) => {
-            const _contents = Array.from(contents);
-            for (let i = 0; i < _contents.length; i++) {
-              if (_contents[i].id === _id) {
-                _contents[i] = { id: _id, title: _title, desc: _desc };
-                break;
-              }
-            }
+            const _contents = updateContents(contents, _id, _title, _desc);
             setContents(_contents);
             setMode("read");
           }}
